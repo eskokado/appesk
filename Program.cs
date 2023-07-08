@@ -1,4 +1,5 @@
 using appesk.Data;
+using appesk.Repositorties;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +15,8 @@ string connectionString = configuration.GetConnectionString("DefaultConnection")
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 26))));
+
+builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
 var app = builder.Build();
 
