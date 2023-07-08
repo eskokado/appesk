@@ -4,8 +4,10 @@ namespace appesk.Controllers;
 
 public class CustomerController : Controller
 {
-    public IActionResult Index()
+    public IActionResult Index(bool isFilter = true)
     {
+        ViewBag.IsFilter = isFilter;
+
         List<CustomerModel> customers = GetCustomersFromDatabase(); // Obtenha os compradores do banco de dados
         return View(customers);
     }
@@ -14,7 +16,7 @@ public class CustomerController : Controller
     public IActionResult Filter(string name, string email, string phone, DateTime? registrationDate, bool? isBlocked)
     {
         List<CustomerModel> filteredCustomers = GetFilteredCustomersFromDatabase(name, email, phone, registrationDate, isBlocked);
-        return PartialView("_CustomerList", filteredCustomers);
+        return RedirectToAction("Index", new { isFilter = true });
     }
 
     [HttpPost]
