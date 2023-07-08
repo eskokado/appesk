@@ -77,6 +77,13 @@ public class CustomerController : Controller
         }
     }
 
+    public IActionResult Delete(int id) 
+    {
+        if (!_customerRepository.DeleteById(id)) throw new System.Exception("Houve erro na delação de Cliente com id "+id);
+        
+        return RedirectToAction("Index", new { isFilter = true });
+    }
+
     private List<CustomerModel> GetFilteredCustomersFromDatabase(string name, string email, string phone, DateTime? registrationDate, bool? isBlocked)
     {
         return new List<CustomerModel>();
