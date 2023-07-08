@@ -1,0 +1,82 @@
+@model CustomerModel
+
+<div>
+    <label asp-for="Name">Nome do Cliente/Razão Social:</label>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+
+<div>
+    <label asp-for="Email">E-Mail:</label>
+    <input asp-for="Email" class="form-control" />
+    <span asp-validation-for="Email" class="text-danger"></span>
+</div>
+
+<div>
+    <label asp-for="Phone">Telefone:</label>
+    <input asp-for="Phone" class="form-control" data-mask="(00) 00000-0000" />
+    <span asp-validation-for="Phone" class="text-danger"></span>
+</div>
+
+<div>
+    <label asp-for="RegistrationDate">Data de Cadastro:</label>
+    <input asp-for="RegistrationDate" class="form-control" disabled />
+</div>
+
+<h2>Informações Pessoais</h2>
+
+<div>
+    <label asp-for="PersonType">Tipo de Pessoa:</label>
+    <select id="PersonType" asp-for="PersonType" asp-items="Html.GetEnumSelectList<PersonType>()" class="form-control"></select>
+    <span asp-validation-for="PersonType" class="text-danger"></span>
+</div>
+
+<div>
+    <label asp-for="CPF_CNPJ">CPF/CNPJ:</label>
+    <input id="cpfCnpjInput" asp-for="CPF_CNPJ" class="form-control"/>
+    <span asp-validation-for="CPF_CNPJ" class="text-danger"></span>
+</div>
+
+<div>
+    <label asp-for="StateRegistration">Inscrição Estadual:</label>
+    <input asp-for="StateRegistration" class="form-control"/>
+    <span asp-validation-for="StateRegistration" class="text-danger"></span>
+</div>
+
+<div>
+    <label asp-for="IsExempt">Isento:</label>
+    <input asp-for="IsExempt" class="form-control" type="checkbox" />
+</div>
+
+<div>
+    <label asp-for="Gender">Gênero:</label>
+    <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control"></select>
+    <span asp-validation-for="Gender" class="text-danger"></span>
+</div>
+
+<div>
+    <label asp-for="DateOfBirth">Data de Nascimento:</label>
+    <input asp-for="DateOfBirth" class="form-control" type="date" />
+    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+</div>
+
+<h2>Situação do Cliente</h2>
+
+<div>
+    <label asp-for="IsBlocked">Bloqueado:</label>
+    <input asp-for="IsBlocked" class="form-control" type="checkbox" />
+</div>
+
+<h2>Senha de Acesso</h2>
+
+<div>
+    <label asp-for="Password">Senha:</label>
+    <input asp-for="Password" class="form-control" type="password" />
+    <span asp-validation-for="Password" class="text-danger"></span>
+</div>
+
+<div>
+    <label asp-for="ConfirmPassword">Confirmação de Senha:</label>
+    <input asp-for="ConfirmPassword" class="form-control" type="password" />
+    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+</div>
