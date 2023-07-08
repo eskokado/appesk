@@ -1,13 +1,16 @@
 using appesk.Data;
+using AutoMapper;
 
 namespace appesk.Repositorties
 {
   public class CustomerRepository : ICustomerRepository
   {
     private readonly DatabaseContext _databaseContext;
-    public CustomerRepository(DatabaseContext databaseContext)
+	private readonly IMapper _mapper;
+    public CustomerRepository(DatabaseContext databaseContext, IMapper mapper)
     {
       _databaseContext = databaseContext;
+	  _mapper = mapper;
     }
 
     public CustomerModel Create(CustomerModel customer)
@@ -18,8 +21,22 @@ namespace appesk.Repositorties
       return customer;
     }
 
+    public CustomerModel Update(CustomerModel customer)
+    {
+		CustomerModel customerUpdate = FindById(customer.Id);
 
-    public List<CustomerModel> GetCustomersFromDatabase(int pageNumber, int pageSize = 20)
+		if (customerUpdate == null) throw new System.Exception("Customer not found with id: " + customer.Id);
+
+		customerUpdate = _mapper.Map<CustomerModel>(customer);
+
+		_databaseContext.Update(customerUpdate);		
+      	_databaseContext.SaveChanges();
+
+      	return customerUpdate;
+    }
+
+
+    public List<CustomerModel> ListPerPage(int pageNumber, int pageSize = 20)
     {
         List<CustomerModel> customers = new List<CustomerModel>();
 
@@ -30,5 +47,11 @@ namespace appesk.Repositorties
 
         return customers;
     }
+
+    public CustomerModel? FindById(int id)
+    {
+      return _databaseContext.Customers.FirstOrDefault(c => c.Id == id);
+    }
   }
 }
+
