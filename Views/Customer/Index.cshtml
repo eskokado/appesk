@@ -76,6 +76,7 @@
                         </td>
                         <td>
                             <a href="@Url.Action("Edit", "Customer", new { id = customer.Id })" class="btn btn-primary">Editar</a>
+                            <a class='btn btn-danger' onclick="DisplayConfirmDeleteModal('@customer.Id')" >Deletar</a>
                         </td>
                     </tr>
                 }
@@ -84,34 +85,76 @@
     </div>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const filterHeading = document.querySelector(".filter-heading");
-        const filterFormDiv = document.getElementById("filterFormDiv");
-        let iconeFilter = document.getElementById("iconeFilter");
 
-        filterHeading.addEventListener("click", function() {
-            filterHeading.classList.toggle("expanded");
-            filterFormDiv.classList.toggle("show");
-            iconeFilter.classList.toggle("fa-chevron-down");
-            iconeFilter.classList.toggle("fa-chevron-up");
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="deleteModalLabel">Confirme Deletar</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="CustomerIdDelete" class="form-control" />
+        <p>Deseja mesmo apagar este cliente?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button id="btnDelete" type="button" class="btn btn-danger">Deletar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function(){
+            $("#btnDelete").on("click", function(){
+                let CustomerId = $("#CustomerIdDelete").val();
+                let UrlHandler="/Customer/Delete/"+CustomerId;
+                $.ajax({
+                    url: UrlHandler, 
+                    type: 'GET',
+                    success: function() {
+                        location.href = location.href;
+                    }
+                });
+            });
         });
-    });
 
-    function removeShowClass() {
-        const filterFormDiv = document.getElementById("filterFormDiv");
-        let iconeFilter = document.getElementById("iconeFilter");
-        filterFormDiv.classList.remove("show");
-        document.getElementById("isFilter").value = "false";
-        iconeFilter.classList.remove("fa-chevron-up");
-        iconeFilter.classList.add("fa-chevron-down");
-    }
+        document.addEventListener("DOMContentLoaded", function() {
+            const filterHeading = document.querySelector(".filter-heading");
+            const filterFormDiv = document.getElementById("filterFormDiv");
+            let iconeFilter = document.getElementById("iconeFilter");
 
-    function setFilterFlag() {
-        event.preventDefault();
-        document.getElementById("isFilter").value = "true";
-    }
+            filterHeading.addEventListener("click", function() {
+                filterHeading.classList.toggle("expanded");
+                filterFormDiv.classList.toggle("show");
+                iconeFilter.classList.toggle("fa-chevron-down");
+                iconeFilter.classList.toggle("fa-chevron-up");
+            });
+        });
 
-    function clearFilters() {
-    }
-</script>
+        function removeShowClass() {
+            const filterFormDiv = document.getElementById("filterFormDiv");
+            let iconeFilter = document.getElementById("iconeFilter");
+            filterFormDiv.classList.remove("show");
+            document.getElementById("isFilter").value = "false";
+            iconeFilter.classList.remove("fa-chevron-up");
+            iconeFilter.classList.add("fa-chevron-down");
+        }
+
+        function setFilterFlag() {
+            event.preventDefault();
+            document.getElementById("isFilter").value = "true";
+        }
+
+        function clearFilters() {
+        }
+
+        function DisplayConfirmDeleteModal(CustomerId) {
+            $("#CustomerIdDelete").val(CustomerId);
+            $("#deleteModal").modal('show');
+        }
+        window.DisplayConfirmDeleteModal = DisplayConfirmDeleteModal;
+    </script>
+}
