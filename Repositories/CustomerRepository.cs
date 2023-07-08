@@ -57,6 +57,18 @@ namespace appesk.Repositorties
     {
       return _databaseContext.Customers.FirstOrDefault(c => c.Id == id);
     }
+
+    public bool DeleteById(int id) 
+    {
+      var customerFound = _databaseContext.Customers.FirstOrDefault(c => c.Id == id);
+
+      if (customerFound == null) throw new System.Exception("Customer Not found with id: " + id);
+
+      _databaseContext.Remove(customerFound);
+      _databaseContext.SaveChanges();
+
+      return true;
+    }
   }
 }
 
