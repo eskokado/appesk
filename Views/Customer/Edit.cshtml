@@ -1,0 +1,19 @@
+@model CustomerModel
+
+@{
+    ViewData["Title"] = "Editar Cliente";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+@using (Html.BeginForm("Update", "Customer", FormMethod.Post))
+{
+    <input type='hidden' asp-for="Id" />
+    
+    <partial name="_CustomerFormPartial" model="Model" />
+
+    <div>
+        <button type="submit" class="btn btn-primary">Alterar Cliente</button>
+        <button class="btn btn-warning" asp-controller="Customer" asp-action="Index">Voltar</button>
+    </div>
+}
