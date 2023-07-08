@@ -1,9 +1,16 @@
+using appesk.Repositorties;
 using Microsoft.AspNetCore.Mvc;
 
 namespace appesk.Controllers;
 
 public class CustomerController : Controller
 {
+    private readonly ICustomerRepository _customerRepository;
+    public CustomerController(ICustomerRepository customerRepository)
+    {
+        _customerRepository = customerRepository;
+    }
+
     public IActionResult Index(bool isFilter = true)
     {
         ViewBag.IsFilter = isFilter;
@@ -35,6 +42,26 @@ public class CustomerController : Controller
         }
         return View(customer);
     }
+
+    public IActionResult Create() 
+    {
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Create(CustomerModel customer)
+    {
+        if (ModelState.IsValid)
+        {
+            _customerRepository.Create(customer);
+            return RedirectToAction("Index", "Customer");
+        }
+        else
+        {
+            return View("Create", customer);
+        }
+    }
+
 
     private List<CustomerModel> GetCustomersFromDatabase()
     {
