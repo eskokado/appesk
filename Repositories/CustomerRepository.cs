@@ -1,5 +1,6 @@
 using appesk.Data;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace appesk.Repositorties
 {
@@ -23,16 +24,20 @@ namespace appesk.Repositorties
 
     public CustomerModel Update(CustomerModel customer)
     {
-		CustomerModel customerUpdate = FindById(customer.Id);
+        CustomerModel customerUpdate = _databaseContext.Customers.FirstOrDefault(c => c.Id == customer.Id);
 
-		if (customerUpdate == null) throw new System.Exception("Customer not found with id: " + customer.Id);
+        if (customerUpdate == null)
+        {
+            throw new System.Exception("Cliente não encontrado com o ID: " + customer.Id);
+        }
 
-		customerUpdate = _mapper.Map<CustomerModel>(customer);
+        _databaseContext.Entry(customerUpdate).State = EntityState.Detached;
 
-		_databaseContext.Update(customerUpdate);		
-      	_databaseContext.SaveChanges();
+        _databaseContext.Update(customer);
 
-      	return customerUpdate;
+        _databaseContext.SaveChanges();
+
+        return customer;
     }
 
 
