@@ -15,7 +15,7 @@ public class CustomerController : Controller
     {
         ViewBag.IsFilter = isFilter;
 
-        List<CustomerModel> customers = GetCustomersFromDatabase(); // Obtenha os compradores do banco de dados
+        List<CustomerModel> customers = _customerRepository.GetCustomersFromDatabase(1, 10); // Obtenha os compradores do banco de dados
         return View(customers);
     }
 
@@ -29,7 +29,7 @@ public class CustomerController : Controller
     [HttpPost]
     public IActionResult ClearFilters()
     {
-        List<CustomerModel> customers = GetCustomersFromDatabase();
+        List<CustomerModel> customers = _customerRepository.GetCustomersFromDatabase(1, 20);
         return PartialView("_CustomerList", customers);
     }
 
@@ -63,10 +63,6 @@ public class CustomerController : Controller
     }
 
 
-    private List<CustomerModel> GetCustomersFromDatabase()
-    {
-        return new List<CustomerModel>();
-    }
 
     private List<CustomerModel> GetFilteredCustomersFromDatabase(string name, string email, string phone, DateTime? registrationDate, bool? isBlocked)
     {
