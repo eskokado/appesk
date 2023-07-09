@@ -15,7 +15,10 @@ public enum Gender
     Male,
     
     [Display(Name = "Feminino")]
-    Female
+    Female,
+
+    [Display(Name = "Outro")]
+    Other
 }
 
 public class CustomerModel
