@@ -22,15 +22,15 @@ public class CustomerController : Controller
     [HttpPost]
     public IActionResult Filter(string name, string email, string phone, DateTime? registrationDate, bool? isBlocked)
     {
-        List<CustomerModel> filteredCustomers = GetFilteredCustomersFromDatabase(name, email, phone, registrationDate, isBlocked);
-        return RedirectToAction("Index", new { isFilter = true });
+        IPagedList<CustomerModel> filteredCustomers = _customerRepository.GetFiltered(1, 20, name, email, phone, registrationDate, isBlocked);
+        return View("Index", filteredCustomers);
     }
 
     [HttpPost]
     public IActionResult ClearFilters()
     {
         IPagedList<CustomerModel> customers = _customerRepository.ListPerPage(1, 20);
-        return PartialView("_CustomerList", customers);
+        return View("Index", customers);
     }
 
     public IActionResult Create() 
@@ -77,15 +77,11 @@ public class CustomerController : Controller
         }
     }
 
+    [HttpPost]
     public IActionResult Delete(int id) 
     {
         if (!_customerRepository.DeleteById(id)) throw new System.Exception("Houve erro na delação de Cliente com id "+id);
-        
-        return RedirectToAction("Index", new { isFilter = true });
-    }
-
-    private List<CustomerModel> GetFilteredCustomersFromDatabase(string name, string email, string phone, DateTime? registrationDate, bool? isBlocked)
-    {
-        return new List<CustomerModel>();
+        IPagedList<CustomerModel> customers = _customerRepository.ListPerPage(1, 20);
+        return View("Index", customers);
     }
 }
