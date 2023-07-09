@@ -2,10 +2,10 @@
 @using X.PagedList.Mvc.Core;
 
 <div class="row">
-    <div class="col-md-9">
-        <h6>Consulte os seus Clientes cadastrados na sua Loja ou realize o cadastro de novos Clientes</h6>
+    <div class="col-md-10">
+        <h5>Consulte os seus Clientes cadastrados na sua Loja ou realize o cadastro de novos Clientes</h5>
     </div>
-    <a href="@Url.Action("Create", "Customer")" class="btn btn-primary col-md-3">Adicionar Cliente</a>
+    <a href="@Url.Action("Create", "Customer")" class="btn btn-primary col-md-2">Adicionar Cliente</a>
     <button class="btn btn-primary col-md-2" onclick="expandFilterForm()">Filtrar</button>
 </div>
 
@@ -72,7 +72,7 @@
                         <td>@customer.Phone</td>
                         <td>@customer.RegistrationDate.ToString("dd/MM/yyyy")</td>
                         <td>
-                            <input type="checkbox" class="isBlockedCheckbox" @(customer.IsBlocked ? "checked" : "") disabled />
+                            <input type="checkbox" class="isBlockedCheckbox" @(customer.IsBlocked ? "checked" : "")/>
                         </td>
                         <td>
                             <a href="@Url.Action("Edit", "Customer", new { id = customer.Id })" class="btn btn-primary">Editar</a>
