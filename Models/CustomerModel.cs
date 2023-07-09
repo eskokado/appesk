@@ -20,6 +20,11 @@ public enum Gender
 
 public class CustomerModel
 {
+    public CustomerModel()
+    {
+        RegistrationDate = DateTime.Today;
+    }
+
     public int Id { get; set; }
 
     [Required(ErrorMessage = "O campo Nome é obrigatório.")]
