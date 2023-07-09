@@ -35,7 +35,8 @@ public class CustomerController : Controller
 
     public IActionResult Create() 
     {
-        return View();
+        var customer = new CustomerModel();
+        return View(customer);
     }
 
     [HttpPost]
