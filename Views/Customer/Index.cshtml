@@ -1,10 +1,12 @@
 @model X.PagedList.IPagedList<CustomerModel>
 @using X.PagedList.Mvc.Core;
 
-<h4>Consulte os seus Clientes cadastrados na sua Loja ou realize o cadastro de novos Clientes</h4>
-<div>
-    <a href="@Url.Action("Create", "Customer")" class="btn btn-primary me-3">Adicionar Cliente</a>
-    <button class="btn btn-primary" onclick="expandFilterForm()">Filtrar</button>
+<div class="row">
+    <div class="col-md-9">
+        <h6>Consulte os seus Clientes cadastrados na sua Loja ou realize o cadastro de novos Clientes</h6>
+    </div>
+    <a href="@Url.Action("Create", "Customer")" class="btn btn-primary col-md-3">Adicionar Cliente</a>
+    <button class="btn btn-primary col-md-2" onclick="expandFilterForm()">Filtrar</button>
 </div>
 
 <div id="filterFormDiv" class="collapse mt-3 mb-3">
