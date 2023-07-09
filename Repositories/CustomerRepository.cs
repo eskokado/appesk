@@ -1,7 +1,7 @@
 using appesk.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-
+using X.PagedList;
 namespace appesk.Repositorties
 {
   public class CustomerRepository : ICustomerRepository
@@ -41,14 +41,9 @@ namespace appesk.Repositorties
     }
 
 
-    public List<CustomerModel> ListPerPage(int pageNumber, int pageSize = 20)
+    public IPagedList<CustomerModel> ListPerPage(int pageNumber, int pageSize = 20)
     {
-        List<CustomerModel> customers = new List<CustomerModel>();
-
-        customers = _databaseContext.Customers
-            .Skip((pageNumber - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
+        IPagedList<CustomerModel> customers = _databaseContext.Customers.ToPagedList(pageNumber, pageSize);
 
         return customers;
     }
