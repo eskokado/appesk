@@ -141,6 +141,18 @@
             });
         });
 
+
+        var selectAllCheckbox = document.getElementById("selectAll");
+        var selectRowCheckboxes = document.getElementsByClassName("selectRow");
+
+        selectAllCheckbox.addEventListener("change", function () {
+            var isChecked = selectAllCheckbox.checked;
+
+            for (var i = 0; i < selectRowCheckboxes.length; i++) {
+                selectRowCheckboxes[i].checked = isChecked;
+            }
+        });
+
         function expandFilterForm() {
             const filterFormDiv = document.getElementById("filterFormDiv");
             filterFormDiv.classList.add("show");

@@ -12,7 +12,7 @@ public class CustomerController : Controller
         _customerRepository = customerRepository;
     }
 
-    public IActionResult Index(int page = 1, int pageSize = 1)
+    public IActionResult Index(int page = 1, int pageSize = 20)
     {
         IPagedList<CustomerModel> customers = _customerRepository.ListPerPage(page, pageSize);
 
