@@ -1,5 +1,6 @@
 using appesk.Repositorties;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 
 namespace appesk.Controllers;
 
@@ -11,11 +12,10 @@ public class CustomerController : Controller
         _customerRepository = customerRepository;
     }
 
-    public IActionResult Index(bool isFilter = true)
+    public IActionResult Index(int page = 1, int pageSize = 1)
     {
-        ViewBag.IsFilter = isFilter;
+        IPagedList<CustomerModel> customers = _customerRepository.ListPerPage(page, pageSize);
 
-        List<CustomerModel> customers = _customerRepository.ListPerPage(1, 10); // Obtenha os compradores do banco de dados
         return View(customers);
     }
 
@@ -29,7 +29,7 @@ public class CustomerController : Controller
     [HttpPost]
     public IActionResult ClearFilters()
     {
-        List<CustomerModel> customers = _customerRepository.ListPerPage(1, 20);
+        IPagedList<CustomerModel> customers = _customerRepository.ListPerPage(1, 20);
         return PartialView("_CustomerList", customers);
     }
 
