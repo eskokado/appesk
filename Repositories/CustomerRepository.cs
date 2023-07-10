@@ -105,6 +105,9 @@ namespace appesk.Repositorties
     public CustomerModel? FindByCpfCnpj(string cpfCnpj) {
       return _databaseContext.Customers.FirstOrDefault(c => c.CPF_CNPJ == cpfCnpj);
     }
+    public CustomerModel? FindByStateRegistration(string stateRegistration) {
+      return _databaseContext.Customers.FirstOrDefault(c => c.StateRegistration == stateRegistration);
+    }
   }
 }
 
