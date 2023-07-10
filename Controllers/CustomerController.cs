@@ -87,11 +87,11 @@ public class CustomerController : Controller
     }
 
     [HttpPost]
-    public IActionResult ValidateEmail(string email)
+    public IActionResult ValidateEmail(string data)
     {
         bool isValidEmail = false;
 
-        CustomerModel customerExists = _customerRepository.FindByEmail(email);
+        CustomerModel customerExists = _customerRepository.FindByEmail(data);
 
         if (customerExists == null) isValidEmail = true;
 
