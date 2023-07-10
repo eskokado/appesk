@@ -6,8 +6,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-@using (Html.BeginForm("Create", "Customer", FormMethod.Post))
-{
+<form onsubmit="return validateEmailNewOrEdit(event);" method="POST" action="/Customer/Create">
     <div class="row">
         <div class="form-group mb-2">
             <label asp-for="Name">Nome do Cliente/Razão Social:</label>
@@ -17,13 +16,13 @@
 
         <div class="form-group mb-2">
             <label asp-for="Email">E-Mail:</label>
-            <input asp-for="Email" class="form-control" data-toggle="tooltip" title="E-mail do Cliente."/>
+            <input id="Email" asp-for="Email" class="form-control" data-toggle="tooltip" title="E-mail do Cliente." />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
 
         <div class="form-group mb-2 col-md-6">
             <label asp-for="Phone">Telefone:</label>
-            <input asp-for="Phone" class="form-control" data-mask="(00) 00000-0000"
+            <input id="Phone" asp-for="Phone" class="form-control"
                  data-toggle="tooltip" title="Telefone do Cliente."
             />
             <span asp-validation-for="Phone" class="text-danger"></span>
@@ -55,7 +54,7 @@
 
         <div class="form-group mb-2 col-md-4">
             <label asp-for="StateRegistration">Inscrição Estadual:</label>
-            <input asp-for="StateRegistration" class="form-control"
+            <input id="StateRegistration" asp-for="StateRegistration" class="form-control"
                  data-toggle="tooltip" title="Inscrição Estadual do Cliente, selecionar Isento caso assim for."
             />
             <span asp-validation-for="StateRegistration" class="text-danger"></span>
@@ -113,14 +112,29 @@
 
     <div>
         <button type="submit" class="btn btn-primary">Adicionar Cliente</button>
-        <button class="btn btn-secondary" asp-controller="Customer" asp-action="Index">Voltar</button>
+        <button type="button" class="btn btn-secondary" onclick="back()">Voltar</button>
     </div>
-}
+</form>
 
 @section Scripts {
     <script>
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
+            $('#Phone').inputmask("(99) 99999-9999");
+            @* $('#StateRegistration').inputmask("999.999.999.999"); *@
+            
+            var cpfCnpjInput = $('#cpfCnpjInput');
+            cpfCnpjInput.inputmask("999.999.999-99");
+            
+            $('#PersonType').change(function () {
+                var PersonType = $(this).val();
+
+                if (PersonType == 0) {
+                    $('#cpfCnpjInput').inputmask("999.999.999-99");
+                } else {
+                    $('#cpfCnpjInput').inputmask("99.999.999/9999-99");
+                }
+            });            
         });
     </script>
 }

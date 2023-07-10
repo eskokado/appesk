@@ -6,8 +6,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-@using (Html.BeginForm("Update", "Customer", FormMethod.Post))
-{
+<form onsubmit="return validateEmailNewOrEdit(event);" method="POST" action="/Customer/Edit">
     <input type='hidden' asp-for="Id" />
     
     <div class="row">
@@ -115,14 +114,29 @@
 
     <div>
         <button type="submit" class="btn btn-primary">Alterar Cliente</button>
-        <button class="btn btn-secondary" asp-controller="Customer" asp-action="Index">Voltar</button>
+        <button type="button" class="btn btn-secondary" onclick="back()">Voltar</button>
     </div>
-}
+</form>
 
 @section Scripts {
     <script>
         $(document).ready(function(){
             $('[data-toggle="tooltip"]').tooltip();
+            $('#Phone').inputmask("(99) 99999-9999");
+            @* $('#StateRegistration').inputmask("999.999.999.999"); *@
+            
+            var cpfCnpjInput = $('#cpfCnpjInput');
+            cpfCnpjInput.inputmask("999.999.999-99");
+            
+            $('#PersonType').change(function () {
+                var PersonType = $(this).val();
+
+                if (PersonType == 0) {
+                    $('#cpfCnpjInput').inputmask("999.999.999-99");
+                } else {
+                    $('#cpfCnpjInput').inputmask("99.999.999/9999-99");
+                }
+            });            
         });
     </script>
 }
