@@ -40,16 +40,16 @@ public class CustomerController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(CustomerModel customer)
+    public IActionResult Create(CustomerModel customer, bool clientValidationFailed)
     {
-        if (ModelState.IsValid)
+        if (clientValidationFailed || !ModelState.IsValid)
+        {
+            return View("Create", customer);
+        }
+        else 
         {
             _customerRepository.Create(customer);
             return RedirectToAction("Index", "Customer");
-        }
-        else
-        {
-            return View("Create", customer);
         }
     }
 
@@ -89,38 +89,48 @@ public class CustomerController : Controller
     [HttpPost]
     public IActionResult ValidateEmail(string data)
     {
-        bool isValid = false;
-
         CustomerModel? customerExists = _customerRepository.FindByEmail(data);
 
-        if (customerExists == null) isValid = true;
-
-        if (isValid)
+        if (customerExists == null)
         {
-            return Ok(); // O email é válido
+            return Ok();
         }
         else
         {
-            return BadRequest(); // O email é inválido
+            return BadRequest();
         }
     }
 
     [HttpPost]
     public IActionResult ValidateCpfCnpj(string data)
     {
-        bool isValid = false;
-
         CustomerModel? customerExists = _customerRepository.FindByCpfCnpj(data);
 
-        if (customerExists == null) isValid = true;
-
-        if (isValid)
+        if (customerExists == null)
         {
-            return Ok(); // O email é válido
+            return Ok();
         }
         else
         {
-            return BadRequest(); // O email é inválido
+            return BadRequest();
+        }
+    }
+
+    [HttpPost]
+    public IActionResult ValidateStateRegistration(string data)
+    {
+        if (data == "") return BadRequest();
+        if (data == "ISENTO") return Ok();
+
+        CustomerModel? customerExists = _customerRepository.FindByStateRegistration(data);
+
+        if (customerExists == null)
+        {
+            return Ok();
+        }
+        else
+        {
+            return BadRequest();
         }
     }
 }
