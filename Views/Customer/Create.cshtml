@@ -6,7 +6,8 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<form method="POST" action="/Customer/Create" novalidate>
+<form method="POST" action="/Customer/Create">
+
     <div class="row">
         <div class="form-group mb-2">
             <label asp-for="Name">Nome do Cliente/Razão Social:</label>
@@ -23,7 +24,7 @@
         <div class="form-group mb-2 col-md-6">
             <label asp-for="Phone">Telefone:</label>
             <input id="Phone" asp-for="Phone" class="form-control"
-                 data-toggle="tooltip" title="Telefone do Cliente."
+                    data-toggle="tooltip" title="Telefone do Cliente."
             />
             <span asp-validation-for="Phone" class="text-danger"></span>
         </div class="form-group mb-2">
@@ -39,7 +40,7 @@
         <div class="form-group mb-2 col-md-4">
             <label asp-for="PersonType">Tipo de Pessoa:</label>
             <select id="PersonType" asp-for="PersonType" asp-items="Html.GetEnumSelectList<PersonType>()" class="form-control"
-                 data-toggle="tooltip" title="Selecione o tipo de Pessoa."
+                    data-toggle="tooltip" title="Selecione o tipo de Pessoa."
             ></select>
             <span asp-validation-for="PersonType" class="text-danger"></span>
         </div>
@@ -47,7 +48,7 @@
         <div class="form-group mb-2 col-md-4">
             <label asp-for="CPF_CNPJ">CPF/CNPJ:</label>
             <input id="cpfCnpjInput" asp-for="CPF_CNPJ" class="form-control"
-                 data-toggle="tooltip" title="Insira o CPF ou o CNPJ do Cliente."
+                    data-toggle="tooltip" title="Insira o CPF ou o CNPJ do Cliente."
             />
             <span asp-validation-for="CPF_CNPJ" class="text-danger"></span>
         </div>
@@ -61,7 +62,7 @@
         <div class="form-group mb-2 col-md-4">
             <label asp-for="StateRegistration">Inscrição Estadual:</label>
             <input id="StateRegistration" asp-for="StateRegistration" class="form-control"
-                 data-toggle="tooltip" title="Inscrição Estadual do Cliente, selecionar Isento caso assim for."
+                    data-toggle="tooltip" title="Inscrição Estadual do Cliente, selecionar Isento caso assim for."
             />
             <span asp-validation-for="StateRegistration" class="text-danger"></span>
         </div>
@@ -69,7 +70,7 @@
         <div class="form-group mb-2 col-md-4">
             <label asp-for="Gender">Gênero:</label>
             <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control"
-                 data-toggle="tooltip" title="Selecione o gênero do Cliente."
+                    data-toggle="tooltip" title="Selecione o gênero do Cliente."
             ></select>
             <span asp-validation-for="Gender" class="text-danger"></span>
         </div>
@@ -77,7 +78,7 @@
         <div class="form-group mb-2 col-md-4">
             <label asp-for="DateOfBirth">Data de Nascimento:</label>
             <input asp-for="DateOfBirth" class="form-control" type="date" 
-                 data-toggle="tooltip" title="Data de nascimento do Cliente."
+                    data-toggle="tooltip" title="Data de nascimento do Cliente."
             />
             <span asp-validation-for="DateOfBirth" class="text-danger"></span>
         </div>
@@ -87,7 +88,7 @@
         <div class="form-group mb-2">
             <label asp-for="IsBlocked">Bloqueado:</label>
             <input asp-for="IsBlocked" class="form-check-input" type="checkbox" 
-                 data-toggle="tooltip" title="Bloqueia o acesso do Cliente na sua Loja"
+                    data-toggle="tooltip" title="Bloqueia o acesso do Cliente na sua Loja"
             />
         </div>
 
@@ -96,7 +97,7 @@
         <div class="form-group mb-2 col-md-6">
             <label asp-for="Password">Senha:</label>
             <input asp-for="Password" class="form-control" type="password" 
-                 data-toggle="tooltip" title="Cadastre a senha de acesso do seu Cliente"
+                    data-toggle="tooltip" title="Cadastre a senha de acesso do seu Cliente"
             />
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
@@ -104,7 +105,7 @@
         <div class="form-group mb-2 col-md-6">
             <label asp-for="ConfirmPassword">Confirmação de Senha:</label>
             <input asp-for="ConfirmPassword" class="form-control" type="password" 
-                 data-toggle="tooltip" title="Tooltip on top"
+                    data-toggle="tooltip" title="Tooltip on top"
             />
             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
         </div>
@@ -114,6 +115,7 @@
         <button type="button" class="btn btn-primary" onclick="validationHandler(event)">Adicionar Cliente</button>
         <button type="button" class="btn btn-secondary" onclick="back()">Voltar</button>
     </div>
+
 </form>
 
 @section Scripts {
@@ -150,7 +152,7 @@
                 } else {
                     stateRegistrationInput.prop('disabled', false);
                     stateRegistrationInput.val('');
-                    @* stateRegistrationInput.inputmask("999.999.999.999"); *@
+                    // stateRegistrationInput.inputmask("999.999.999.999"); 
                 }
             });
         });
@@ -169,9 +171,9 @@
             isValid = validateField(form, '#StateRegistration', '/Customer/ValidateStateRegistration/', 'Esta Inscrição Estadual já está cadastrada para outro Cliente') && isValid;
 
              if (isValid) {
-                form.append('<input type="hidden" name="clientValidationFailed" value="false" />'); // Adiciona um campo oculto indicando que a validação no cliente foi bem-sucedida
+                form.append('<input type="hidden" name="clientValidationFailed" value="false" />');
             } else {
-                form.append('<input type="hidden" name="clientValidationFailed" value="true" />'); // Adiciona um campo oculto indicando que a validação no cliente falhou
+                form.append('<input type="hidden" name="clientValidationFailed" value="true" />');
             }
             var tempoEmMilissegundos = 500;
             event.preventDefault();
