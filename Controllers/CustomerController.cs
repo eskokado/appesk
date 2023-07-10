@@ -89,13 +89,32 @@ public class CustomerController : Controller
     [HttpPost]
     public IActionResult ValidateEmail(string data)
     {
-        bool isValidEmail = false;
+        bool isValid = false;
 
         CustomerModel customerExists = _customerRepository.FindByEmail(data);
 
-        if (customerExists == null) isValidEmail = true;
+        if (customerExists == null) isValid = true;
 
-        if (isValidEmail)
+        if (isValid)
+        {
+            return Ok(); // O email é válido
+        }
+        else
+        {
+            return BadRequest(); // O email é inválido
+        }
+    }
+
+    [HttpPost]
+    public IActionResult ValidateCpfCnpj(string data)
+    {
+        bool isValid = false;
+
+        CustomerModel customerExists = _customerRepository.FindByCpfCnpj(data);
+
+        if (customerExists == null) isValid = true;
+
+        if (isValid)
         {
             return Ok(); // O email é válido
         }
