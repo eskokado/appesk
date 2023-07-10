@@ -34,6 +34,8 @@ public class CustomerModel
         Password = "";
         ConfirmPassword = "";
     }
+    private string _cpfCnpj;
+    private string _stateRegistration;
 
     public int Id { get; set; }
 
@@ -54,12 +56,20 @@ public class CustomerModel
     public PersonType PersonType { get; set; }
 
     [Required(ErrorMessage = "O campo CPF/CNPJ é obrigatório.")]
-    [StringLength(14, ErrorMessage = "O campo CPF/CNPJ deve ter no máximo {1} caracteres.")]
-    public string CPF_CNPJ { get; set; }
+    [StringLength(19, ErrorMessage = "O campo CPF/CNPJ deve ter no máximo {1} caracteres.")]
+    public string CPF_CNPJ
+    {
+        get { return _cpfCnpj; }
+        set { _cpfCnpj = RemoveMask(value); }
+    }
 
     [Required(ErrorMessage = "O campo Inscrição Estadual é obrigatório.")]
-    [StringLength(12, ErrorMessage = "O campo Inscrição Estadual deve ter no máximo {1} caracteres.")]
-    public string StateRegistration { get; set; }
+    [StringLength(15, ErrorMessage = "O campo Inscrição Estadual deve ter no máximo {1} caracteres.")]
+    public string StateRegistration 
+    {
+        get { return _stateRegistration; }
+        set { _stateRegistration = RemoveMask(value); }
+    }
 
     public bool IsExempt { get; set; }
 
@@ -85,4 +95,11 @@ public class CustomerModel
     public string ConfirmPassword { get; set; }
 
     public DateTime RegistrationDate { get; set; }
+
+
+    private string RemoveMask(string valueWithMask)
+    {
+        return new string(valueWithMask.Where(char.IsDigit).ToArray());
+    }
+
 }
