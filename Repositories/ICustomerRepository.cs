@@ -10,6 +10,7 @@ namespace appesk.Repositorties
 		IPagedList<CustomerModel> GetFiltered(int pageNumber, int pageSize, string? name, string? email, string? phone, DateTime? registrationDate, bool? isBlocked);
 		CustomerModel? FindById(int id);
 		CustomerModel FindByEmail(string email);
+		CustomerModel FindByCpfCnpj(string cpfCnpj);
 
 		bool DeleteById(int id);
 	}
