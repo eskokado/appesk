@@ -6,7 +6,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<form onsubmit="return validationHandler(event);" method="POST" action="/Customer/Create">
+<form method="POST" action="/Customer/Create" novalidate>
     <div class="row">
         <div class="form-group mb-2">
             <label asp-for="Name">Nome do Cliente/Razão Social:</label>
@@ -111,21 +111,23 @@
     </div>
 
     <div>
-        <button type="submit" class="btn btn-primary">Adicionar Cliente</button>
+        <button type="button" class="btn btn-primary" onclick="validationHandler(event)">Adicionar Cliente</button>
         <button type="button" class="btn btn-secondary" onclick="back()">Voltar</button>
     </div>
 </form>
 
 @section Scripts {
     <script>
-
+        var isValidStateRegistration = false;
+        var isValidEmail = false;
+        var isValidCpfCnpj = false;
         $(document).ready(function() {
             $('[data-toggle="tooltip"]').tooltip();
             $('#Phone').inputmask("(99) 99999-9999");
             // $('#StateRegistration').inputmask("999.999.999.999");
             
             var cpfCnpjInput = $('#cpfCnpjInput');
-            var isExempt = $('#IsExempt');
+            var isExemptCheckbox = $('#IsExempt');
             var stateRegistrationInput = $('#StateRegistration');
             var personType = $('#PersonType');
             cpfCnpjInput.inputmask("999.999.999-99");
@@ -140,44 +142,42 @@
                 }
             });
 
-            isExempt.on('change', function() {
-                if (isExempt.prop('checked')) {
+            isExemptCheckbox.on('change', function() {
+                if (isExemptCheckbox.prop('checked')) {
                     stateRegistrationInput.inputmask("");
                     stateRegistrationInput.val('ISENTO');
                     stateRegistrationInput.prop('disabled', true);
                 } else {
                     stateRegistrationInput.prop('disabled', false);
-                    stateRegistrationInput.inputmask("999.999.999.999");
+                    stateRegistrationInput.val('');
+                    @* stateRegistrationInput.inputmask("999.999.999.999"); *@
                 }
             });
         });
 
         function validationHandler(event) {
-            var isValidCpfCnpj = validateCpfCnpjNew(event)
-            var isValidEmail = validateEmailNew(event);
-            return isValidCpfCnpj && isValidEmail;
-        }
-
-        function validateEmailNew(event) {
             event.preventDefault();
-            var messageError = "Este e-mail já está cadastrado para outro Cliente";
-            validateNewOrEdit(event, "#Email", "/Customer/ValidateEmail/", messageError, function (isValid) {
-                if (isValid) {
-                        event.target.submit();
-                    }
-                });
+            validateForm(event);
         }
 
-        function validateCpfCnpjNew(event) {
+        function validateForm(event) {
+            var form = $('form');
+            var isValid = true;
+
+            isValid = validateField(form, '#Email', '/Customer/ValidateEmail/', 'Este e-mail já está cadastrado para outro Cliente');
+            isValid = validateField(form, '#cpfCnpjInput', '/Customer/ValidateCpfCnpj/', 'Este Cpf/Cnpj já está cadastrado para outro Cliente') && isValid;
+            isValid = validateField(form, '#StateRegistration', '/Customer/ValidateStateRegistration/', 'Esta Inscrição Estadual já está cadastrada para outro Cliente') && isValid;
+
+             if (isValid) {
+                form.append('<input type="hidden" name="clientValidationFailed" value="false" />'); // Adiciona um campo oculto indicando que a validação no cliente foi bem-sucedida
+            } else {
+                form.append('<input type="hidden" name="clientValidationFailed" value="true" />'); // Adiciona um campo oculto indicando que a validação no cliente falhou
+            }
+            var tempoEmMilissegundos = 500;
             event.preventDefault();
-            var messageError = "Este Cpf/Cnpj já está cadastrado para outro Cliente";
-            validateNewOrEdit(event, "#cpfCnpjInput", "/Customer/ValidateCpfCnpj/", messageError, function (isValid) {
-                if (isValid) {
-                        event.target.submit();
-                    }
-                });
+            setTimeout(function() {
+                form.submit();
+            }, tempoEmMilissegundos);
         }
-
-
     </script>
 }
