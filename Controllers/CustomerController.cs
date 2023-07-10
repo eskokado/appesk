@@ -85,4 +85,23 @@ public class CustomerController : Controller
         IPagedList<CustomerModel> customers = _customerRepository.ListPerPage(1, 20);
         return View("Index", customers);
     }
+
+    [HttpPost]
+    public IActionResult ValidateEmail(string email)
+    {
+        bool isValidEmail = false;
+
+        CustomerModel customerExists = _customerRepository.FindByEmail(email);
+
+        if (customerExists == null) isValidEmail = true;
+
+        if (isValidEmail)
+        {
+            return Ok(); // O email é válido
+        }
+        else
+        {
+            return BadRequest(); // O email é inválido
+        }
+    }
 }
