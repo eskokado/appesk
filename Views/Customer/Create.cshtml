@@ -6,7 +6,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<form onsubmit="return validateEmailNewOrEdit(event);" method="POST" action="/Customer/Create">
+<form onsubmit="return validateEmailNew(event);" method="POST" action="/Customer/Create">
     <div class="row">
         <div class="form-group mb-2">
             <label asp-for="Name">Nome do Cliente/Razão Social:</label>
@@ -136,5 +136,17 @@
                 }
             });            
         });
+
+        function validateEmailNew(event) {
+            event.preventDefault();
+            var messageError = "Este e-mail já está cadastrado para outro Cliente";
+            validateNewOrEdit(event, "#Email", "/Customer/ValidateEmail/", messageError, function (isValid) {
+                    if (isValid) {
+                        event.target.submit();
+                    }
+                });
+        }
+
+
     </script>
 }

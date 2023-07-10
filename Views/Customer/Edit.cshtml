@@ -6,8 +6,8 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<form onsubmit="return validateEmailNewOrEdit(event);" method="POST" action="/Customer/Edit">
-    <input type='hidden' asp-for="Id" />
+<form onsubmit="return validateEmailEdit(event);" method="POST" action="/Customer/Edit">
+    <input id="Id" type='hidden' asp-for="Id" />
     
     <div class="row">
         <div class="form-group mb-2">
@@ -138,5 +138,17 @@
                 }
             });            
         });
+
+        function validateEmailEdit(event) {
+            event.preventDefault();
+            var id = $("#Id").val();
+            var messageError = "Este e-mail já está cadastrado para outro Cliente";
+            validateNewOrEdit(event, "#Email", "/Customer/ValidateEmail/", messageError, function (isValid) {
+                    if (isValid) {
+                        event.target.submit();
+                    }
+                });
+        }
+
     </script>
 }
