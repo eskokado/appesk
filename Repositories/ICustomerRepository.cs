@@ -11,6 +11,7 @@ namespace appesk.Repositorties
 		CustomerModel? FindById(int id);
 		CustomerModel? FindByEmail(string email);
 		CustomerModel? FindByCpfCnpj(string cpfCnpj);
+		CustomerModel? FindByStateRegistration(string stateRegistration);
 
 		bool DeleteById(int id);
 	}
