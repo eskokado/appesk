@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/appesk.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.12.0/toastify.css">
 </head>
 <body>
     <header>
@@ -43,8 +44,63 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script>
+        function sendMessage(message, isSuccess) {
+            Toastify({
+                text: message,
+                duration: 3000, 
+                gravity: "top", 
+                close: true, 
+                backgroundColor: "#ff8800", 
+                stopOnFocus: true 
+            }).showToast();
+        }
+
+        function validateEmailNewOrEdit(event) {
+            event.preventDefault();
+
+            if (event.submitter && event.submitter.type !== 'submit') {
+                return true;
+            }
+
+            var email = $("#Email").val();
+            if (email) {
+                validateEmail(email, function (isValid) {
+                    if (isValid) {
+                        event.target.submit();
+                    }
+                });
+            } else {
+                event.target.submit();
+            }
+        }
+
+        function validateEmail(email, callback) {
+            $.ajax({
+                url: '/Customer/ValidateEmail/',
+                type: 'POST',
+                data: { email: email },
+                success: function (response) {
+                    callback(true);
+                },
+                error: function (error) {
+                    sendMessage("Este e-mail já está cadastrado para outro Cliente");
+                    callback(false);
+                }
+            });
+        }
+
+        function back() {
+            console.log("back");
+            window.location.href = '/Customer/Index';
+        }
+
+    </script>
 </body>
 </html>
