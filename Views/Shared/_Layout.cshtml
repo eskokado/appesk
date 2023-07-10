@@ -62,35 +62,32 @@
             }).showToast();
         }
 
-        function validateEmailNewOrEdit(event) {
+        function validateNewOrEdit(event, idElem, urlHandler, messageError, callback) {
             event.preventDefault();
 
             if (event.submitter && event.submitter.type !== 'submit') {
                 return true;
             }
 
-            var email = $("#Email").val();
-            if (email) {
-                validateEmail(email, function (isValid) {
-                    if (isValid) {
-                        event.target.submit();
-                    }
-                });
+            var data = $(idElem).val();
+            console.log("data", data);
+            if (data) {
+                validateGeneric(data, urlHandler, messageError, callback);
             } else {
                 event.target.submit();
             }
         }
 
-        function validateEmail(email, callback) {
+        function validateGeneric(data, urlHandler, messageError, callback) {
             $.ajax({
-                url: '/Customer/ValidateEmail/',
+                url: urlHandler,
                 type: 'POST',
-                data: { email: email },
+                data: { data: data },
                 success: function (response) {
                     callback(true);
                 },
                 error: function (error) {
-                    sendMessage("Este e-mail já está cadastrado para outro Cliente");
+                    sendMessage(messageError);
                     callback(false);
                 }
             });
