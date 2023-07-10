@@ -1,27 +1,30 @@
 @model CustomerModel
 
-<div class="row">
+@* <div class="row">
     <div class="form-group mb-2">
         <label asp-for="Name">Nome do Cliente/Razão Social:</label>
-        <input asp-for="Name" class="form-control" data-toggle="tooltip" title="Tooltip on top"/>
+        <input asp-for="Name" class="form-control" data-toggle="tooltip" title="Nome completo ou Razão Social do Cliente."/>
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
     <div class="form-group mb-2">
         <label asp-for="Email">E-Mail:</label>
-        <input asp-for="Email" class="form-control" data-toggle="tooltip" title="Tooltip on top"/>
+        <input id="Email" asp-for="Email" class="form-control" data-toggle="tooltip" title="E-mail do Cliente." />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
     <div class="form-group mb-2 col-md-6">
         <label asp-for="Phone">Telefone:</label>
-        <input asp-for="Phone" class="form-control" data-mask="(00) 00000-0000"data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"/>
+        <input id="Phone" asp-for="Phone" class="form-control"
+                data-toggle="tooltip" title="Telefone do Cliente."
+        />
         <span asp-validation-for="Phone" class="text-danger"></span>
     </div class="form-group mb-2">
 
     <div class="form-group mb-2 col-md-6">
         <label asp-for="RegistrationDate">Data de Cadastro:</label>
-        <input asp-for="RegistrationDate" class="form-control" disabled/>
+        <input asp-for="RegistrationDate" class="form-control" disabled
+        />
     </div class="form-group mb-2">
 
     <h2>Informações Pessoais</h2>
@@ -29,7 +32,7 @@
     <div class="form-group mb-2 col-md-4">
         <label asp-for="PersonType">Tipo de Pessoa:</label>
         <select id="PersonType" asp-for="PersonType" asp-items="Html.GetEnumSelectList<PersonType>()" class="form-control"
-            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"
+                data-toggle="tooltip" title="Selecione o tipo de Pessoa."
         ></select>
         <span asp-validation-for="PersonType" class="text-danger"></span>
     </div>
@@ -37,30 +40,29 @@
     <div class="form-group mb-2 col-md-4">
         <label asp-for="CPF_CNPJ">CPF/CNPJ:</label>
         <input id="cpfCnpjInput" asp-for="CPF_CNPJ" class="form-control"
-            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"
+                data-toggle="tooltip" title="Insira o CPF ou o CNPJ do Cliente."
         />
         <span asp-validation-for="CPF_CNPJ" class="text-danger"></span>
     </div>
 
+    <div class="form-group mb-2 col-md-4 d-flex align-items-center">
+        <label asp-for="IsExempt">Isento:</label>
+        <input id="IsExempt" asp-for="IsExempt" class="form-check-input ms-2" type="checkbox" 
+        />
+    </div>
+
     <div class="form-group mb-2 col-md-4">
         <label asp-for="StateRegistration">Inscrição Estadual:</label>
-        <input asp-for="StateRegistration" class="form-control"
-            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"
+        <input id="StateRegistration" asp-for="StateRegistration" class="form-control"
+                data-toggle="tooltip" title="Inscrição Estadual do Cliente, selecionar Isento caso assim for."
         />
         <span asp-validation-for="StateRegistration" class="text-danger"></span>
     </div>
 
     <div class="form-group mb-2 col-md-4">
-        <label asp-for="IsExempt">Isento:</label>
-        <input asp-for="IsExempt" class="form-control" type="checkbox" 
-            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"
-        />
-    </div>
-
-    <div class="form-group mb-2 col-md-4">
         <label asp-for="Gender">Gênero:</label>
         <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control"
-            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"
+                data-toggle="tooltip" title="Selecione o gênero do Cliente."
         ></select>
         <span asp-validation-for="Gender" class="text-danger"></span>
     </div>
@@ -68,7 +70,7 @@
     <div class="form-group mb-2 col-md-4">
         <label asp-for="DateOfBirth">Data de Nascimento:</label>
         <input asp-for="DateOfBirth" class="form-control" type="date" 
-            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"
+                data-toggle="tooltip" title="Data de nascimento do Cliente."
         />
         <span asp-validation-for="DateOfBirth" class="text-danger"></span>
     </div>
@@ -77,8 +79,8 @@
 
     <div class="form-group mb-2">
         <label asp-for="IsBlocked">Bloqueado:</label>
-        <input asp-for="IsBlocked" class="form-control" type="checkbox" 
-            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"
+        <input asp-for="IsBlocked" class="form-check-input" type="checkbox" 
+                data-toggle="tooltip" title="Bloqueia o acesso do Cliente na sua Loja"
         />
     </div>
 
@@ -87,7 +89,7 @@
     <div class="form-group mb-2 col-md-6">
         <label asp-for="Password">Senha:</label>
         <input asp-for="Password" class="form-control" type="password" 
-            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"
+                data-toggle="tooltip" title="Cadastre a senha de acesso do seu Cliente"
         />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
@@ -95,17 +97,80 @@
     <div class="form-group mb-2 col-md-6">
         <label asp-for="ConfirmPassword">Confirmação de Senha:</label>
         <input asp-for="ConfirmPassword" class="form-control" type="password" 
-            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top"
+                data-toggle="tooltip" title="Tooltip on top"
         />
         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
     </div>
 </div>
 
+<div>
+    <button type="button" class="btn btn-primary" onclick="validationHandler(event)">Adicionar Cliente</button>
+    <button type="button" class="btn btn-secondary" onclick="back()">Voltar</button>
+</div> *@
+
 @section Scripts {
     <script>
-        $(document).ready(function(){
+        var isValidStateRegistration = false;
+        var isValidEmail = false;
+        var isValidCpfCnpj = false;
+        $(document).ready(function() {
             $('[data-toggle="tooltip"]').tooltip();
+            $('#Phone').inputmask("(99) 99999-9999");
+            // $('#StateRegistration').inputmask("999.999.999.999");
+            
+            var cpfCnpjInput = $('#cpfCnpjInput');
+            var isExemptCheckbox = $('#IsExempt');
+            var stateRegistrationInput = $('#StateRegistration');
+            var personType = $('#PersonType');
+            cpfCnpjInput.inputmask("999.999.999-99");
+
+            personType.change(function() {
+                var PersonType = $(this).val();
+
+                if (PersonType == 0) {
+                    $('#cpfCnpjInput').inputmask("999.999.999-99");
+                } else {
+                    $('#cpfCnpjInput').inputmask("99.999.999/9999-99");
+                }
+            });
+
+            isExemptCheckbox.on('change', function() {
+                if (isExemptCheckbox.prop('checked')) {
+                    stateRegistrationInput.inputmask("");
+                    stateRegistrationInput.val('ISENTO');
+                    stateRegistrationInput.prop('disabled', true);
+                } else {
+                    stateRegistrationInput.prop('disabled', false);
+                    stateRegistrationInput.val('');
+                    @* stateRegistrationInput.inputmask("999.999.999.999"); *@
+                }
+            });
         });
+
+        function validationHandler(event) {
+            event.preventDefault();
+            validateForm(event);
+        }
+
+        function validateForm(event) {
+            var form = $('form');
+            var isValid = true;
+
+            isValid = validateField(form, '#Email', '/Customer/ValidateEmail/', 'Este e-mail já está cadastrado para outro Cliente');
+            isValid = validateField(form, '#cpfCnpjInput', '/Customer/ValidateCpfCnpj/', 'Este Cpf/Cnpj já está cadastrado para outro Cliente') && isValid;
+            isValid = validateField(form, '#StateRegistration', '/Customer/ValidateStateRegistration/', 'Esta Inscrição Estadual já está cadastrada para outro Cliente') && isValid;
+
+             if (isValid) {
+                form.append('<input type="hidden" name="clientValidationFailed" value="false" />');
+            } else {
+                form.append('<input type="hidden" name="clientValidationFailed" value="true" />');
+            }
+            var tempoEmMilissegundos = 500;
+            event.preventDefault();
+            setTimeout(function() {
+                form.submit();
+            }, tempoEmMilissegundos);
+        }
     </script>
 }
 
