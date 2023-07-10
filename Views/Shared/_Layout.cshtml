@@ -98,6 +98,10 @@
             console.log("back");
             window.location.href = '/Customer/Index';
         }
+
+        function removeMask(value) {
+            return value.replace(/[^\d]+/g, '');
+        }
     </script>
 </body>
 </html>
