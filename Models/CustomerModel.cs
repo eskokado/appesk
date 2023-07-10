@@ -26,6 +26,13 @@ public class CustomerModel
     public CustomerModel()
     {
         RegistrationDate = DateTime.Today;
+        StateRegistration = "";
+        Name = "";
+        Email = "";
+        Phone = "";
+        CPF_CNPJ = "";
+        Password = "";
+        ConfirmPassword = "";
     }
 
     public int Id { get; set; }

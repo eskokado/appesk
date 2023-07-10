@@ -56,7 +56,7 @@ public class CustomerController : Controller
 
     public IActionResult Edit(int id)
     {
-        CustomerModel customer = _customerRepository.FindById(id);
+        CustomerModel? customer = _customerRepository.FindById(id);
         if (customer == null)
         {
             return NotFound();
@@ -91,7 +91,7 @@ public class CustomerController : Controller
     {
         bool isValid = false;
 
-        CustomerModel customerExists = _customerRepository.FindByEmail(data);
+        CustomerModel? customerExists = _customerRepository.FindByEmail(data);
 
         if (customerExists == null) isValid = true;
 
@@ -110,7 +110,7 @@ public class CustomerController : Controller
     {
         bool isValid = false;
 
-        CustomerModel customerExists = _customerRepository.FindByCpfCnpj(data);
+        CustomerModel? customerExists = _customerRepository.FindByCpfCnpj(data);
 
         if (customerExists == null) isValid = true;
 

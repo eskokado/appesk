@@ -6,6 +6,7 @@ namespace appesk.Data
   {
     public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
     {
+      Customers = Set<CustomerModel>();
     }
 
     public DbSet<CustomerModel> Customers { get; set; }

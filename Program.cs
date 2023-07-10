@@ -23,7 +23,7 @@ var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .Build();
 
-string connectionString = configuration.GetConnectionString("DefaultConnection");
+string? connectionString = configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<DatabaseContext>(options =>
     options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 26))));

@@ -22,9 +22,9 @@ namespace appesk.Repositorties
       return customer;
     }
 
-    public CustomerModel Update(CustomerModel customer)
+    public CustomerModel? Update(CustomerModel customer)
     {
-        CustomerModel customerUpdate = _databaseContext.Customers.FirstOrDefault(c => c.Id == customer.Id);
+        CustomerModel? customerUpdate = _databaseContext.Customers.FirstOrDefault(c => c.Id == customer.Id);
 
         if (customerUpdate == null)
         {
@@ -99,10 +99,10 @@ namespace appesk.Repositorties
       return customers;
     }
 
-    public CustomerModel FindByEmail(string email) {
+    public CustomerModel? FindByEmail(string email) {
       return _databaseContext.Customers.FirstOrDefault(c => c.Email == email);
     }
-    public CustomerModel FindByCpfCnpj(string cpfCnpj) {
+    public CustomerModel? FindByCpfCnpj(string cpfCnpj) {
       return _databaseContext.Customers.FirstOrDefault(c => c.CPF_CNPJ == cpfCnpj);
     }
   }
