@@ -54,6 +54,7 @@
         function validateField(form, fieldSelector, urlHandler, messageError) {
             var field = form.find(fieldSelector);
             var data = field.val();
+            var id = form.find("#Id").val();
 
             if (data == "") return false;
             
@@ -63,7 +64,7 @@
                 url: urlHandler,
                 type: 'POST',
                 async: false,
-                data: { data: data }
+                data: { data: data, id: id }
             });
 
             ajaxRequest.done(function(response) {
