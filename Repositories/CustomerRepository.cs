@@ -102,6 +102,9 @@ namespace appesk.Repositorties
     public CustomerModel FindByEmail(string email) {
       return _databaseContext.Customers.FirstOrDefault(c => c.Email == email);
     }
+    public CustomerModel FindByCpfCnpj(string cpfCnpj) {
+      return _databaseContext.Customers.FirstOrDefault(c => c.CPF_CNPJ == cpfCnpj);
+    }
   }
 }
 
