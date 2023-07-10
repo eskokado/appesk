@@ -51,53 +51,52 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
     <script>
-        function sendMessage(message, isSuccess) {
-            Toastify({
-                text: message,
-                duration: 3000, 
-                gravity: "top", 
-                close: true, 
-                backgroundColor: "#ff8800", 
-                stopOnFocus: true 
-            }).showToast();
-        }
+        function validateField(form, fieldSelector, urlHandler, messageError) {
+            var field = form.find(fieldSelector);
+            var data = field.val();
 
-        function validateNewOrEdit(event, idElem, urlHandler, messageError, callback) {
-            event.preventDefault();
+            if (data == "") return false;
+            
+            var isValid = false;
 
-            if (event.submitter && event.submitter.type !== 'submit') {
-                return true;
-            }
-
-            var data = $(idElem).val();
-            console.log("data", data);
-            if (data) {
-                validateGeneric(data, urlHandler, messageError, callback);
-            } else {
-                event.target.submit();
-            }
-        }
-
-        function validateGeneric(data, urlHandler, messageError, callback) {
-            $.ajax({
+            var ajaxRequest = $.ajax({
                 url: urlHandler,
                 type: 'POST',
-                data: { data: data },
-                success: function (response) {
-                    callback(true);
-                },
-                error: function (error) {
-                    sendMessage(messageError);
-                    callback(false);
-                }
+                async: false,
+                data: { data: data }
             });
+
+            ajaxRequest.done(function(response) {
+                isValid = true;
+            });
+
+            ajaxRequest.fail(function(error) {
+                sendMessage(messageError);
+            });
+
+            return isValid;
+        }
+
+        function sendMessage(message) {
+            Toastify({
+                text: message,
+                duration: 3000,
+                gravity: "top",
+                position: "top",
+                close: true,
+                backgroundColor: "#ff8800",
+                stopOnFocus: true,
+                offset: {
+                    y: 100,
+                    x: 20,
+                }
+            }).showToast();
         }
 
         function back() {
             console.log("back");
             window.location.href = '/Customer/Index';
         }
-
     </script>
 </body>
 </html>
