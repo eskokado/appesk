@@ -67,36 +67,40 @@ namespace appesk.Repositorties
 
     public IPagedList<CustomerModel> GetFiltered(int pageNumber = 1, int pageSize = 20, string? name = null, string?  email = null, string? phone = null, DateTime? registrationDate = null, bool? isBlocked = null)
     {
-		IQueryable<CustomerModel> query = _databaseContext.Customers;
+      IQueryable<CustomerModel> query = _databaseContext.Customers;
 
-		if (!string.IsNullOrEmpty(name))
-		{
-			query = query.Where(c => c.Name.Contains(name));
-		}
+      if (!string.IsNullOrEmpty(name))
+      {
+        query = query.Where(c => c.Name.Contains(name));
+      }
 
-		if (!string.IsNullOrEmpty(email))
-		{
-			query = query.Where(c => c.Email.Contains(email));
-		}
+      if (!string.IsNullOrEmpty(email))
+      {
+        query = query.Where(c => c.Email.Contains(email));
+      }
 
-		if (!string.IsNullOrEmpty(phone))
-		{
-			query = query.Where(c => c.Phone.Contains(phone));
-		}
+      if (!string.IsNullOrEmpty(phone))
+      {
+        query = query.Where(c => c.Phone.Contains(phone));
+      }
 
-		if (registrationDate.HasValue)
-		{
-			query = query.Where(c => c.RegistrationDate == registrationDate.Value);
-		}
+      if (registrationDate.HasValue)
+      {
+        query = query.Where(c => c.RegistrationDate == registrationDate.Value);
+      }
 
-		if (isBlocked.HasValue)
-		{
-			query = query.Where(c => c.IsBlocked == isBlocked.Value);
-		}
+      if (isBlocked.HasValue)
+      {
+        query = query.Where(c => c.IsBlocked == isBlocked.Value);
+      }
 
-		IPagedList<CustomerModel> customers = query.ToPagedList(pageNumber, pageSize);
+      IPagedList<CustomerModel> customers = query.ToPagedList(pageNumber, pageSize);
 
-		return customers;
+      return customers;
+    }
+
+    public CustomerModel FindByEmail(string email) {
+      return _databaseContext.Customers.FirstOrDefault(c => c.Email == email);
     }
   }
 }
