@@ -27,8 +27,8 @@ namespace appesk.Migrations
 
                     b.Property<string>("CPF_CNPJ")
                         .IsRequired()
-                        .HasMaxLength(14)
-                        .HasColumnType("varchar(14)");
+                        .HasMaxLength(19)
+                        .HasColumnType("varchar(19)");
 
                     b.Property<string>("ConfirmPassword")
                         .IsRequired()
@@ -73,8 +73,8 @@ namespace appesk.Migrations
 
                     b.Property<string>("StateRegistration")
                         .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("varchar(12)");
+                        .HasMaxLength(15)
+                        .HasColumnType("varchar(15)");
 
                     b.HasKey("Id");
 
