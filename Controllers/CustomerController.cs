@@ -42,40 +42,28 @@ public class CustomerController : Controller
     [HttpPost]
     public IActionResult Create(CustomerModel customer, bool clientValidationFailed)
     {
-        if (clientValidationFailed || !ModelState.IsValid)
-        {
-            return View("Create", customer);
-        }
-        else 
-        {
-            _customerRepository.Create(customer);
-            return RedirectToAction("Index", "Customer");
-        }
+        if (clientValidationFailed || !ModelState.IsValid) return View("Create", customer);
+
+        _customerRepository.Create(customer);
+        return RedirectToAction("Index", "Customer");
     }
 
 
     public IActionResult Edit(int id)
     {
         CustomerModel? customer = _customerRepository.FindById(id);
-        if (customer == null)
-        {
-            return NotFound();
-        }
+        if (customer == null) return NotFound();
+
         return View(customer);
     }
 
     [HttpPost]
-    public IActionResult Update(CustomerModel customer)
+    public IActionResult Update(CustomerModel customer, bool clientValidationFailed)
     {
-        if (ModelState.IsValid)
-        {
-            _customerRepository.Update(customer);
-            return RedirectToAction("Index", "Customer");
-        }
-        else
-        {
-            return View("Create", customer);
-        }
+        if (clientValidationFailed || !ModelState.IsValid) return View("Edit", customer);
+        
+        _customerRepository.Update(customer);
+        return RedirectToAction("Index", "Customer");
     }
 
     [HttpPost]
@@ -87,50 +75,41 @@ public class CustomerController : Controller
     }
 
     [HttpPost]
-    public IActionResult ValidateEmail(string data)
+    public IActionResult ValidateEmail(string data, int? id)
     {
         CustomerModel? customerExists = _customerRepository.FindByEmail(data);
 
-        if (customerExists == null)
-        {
-            return Ok();
-        }
-        else
-        {
-            return BadRequest();
-        }
+        if (customerExists == null) return Ok();
+
+        if (id != null && customerExists.Id == id) return Ok();
+
+        return BadRequest();
     }
 
     [HttpPost]
-    public IActionResult ValidateCpfCnpj(string data)
+    public IActionResult ValidateCpfCnpj(string data, int? id)
     {
         CustomerModel? customerExists = _customerRepository.FindByCpfCnpj(data);
 
-        if (customerExists == null)
-        {
-            return Ok();
-        }
-        else
-        {
-            return BadRequest();
-        }
+        if (customerExists == null) return Ok();
+
+        if (id != null && customerExists.Id == id) return Ok();
+
+        return BadRequest();
     }
 
     [HttpPost]
-    public IActionResult ValidateStateRegistration(string data)
+    public IActionResult ValidateStateRegistration(string data, int? id)
     {
         if (data == "") return BadRequest();
         if (data == "ISENTO") return Ok();
 
         CustomerModel? customerExists = _customerRepository.FindByStateRegistration(data);
 
-        if (customerExists == null)
-        {
-            return Ok();
-        }
-        else
-        {
-            return BadRequest();
-        }
+        if (customerExists == null) return Ok();
+
+        if (id != null && customerExists.Id == id) return Ok();
+
+        return BadRequest();
     }
 }
