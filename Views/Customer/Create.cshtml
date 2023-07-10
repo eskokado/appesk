@@ -105,7 +105,7 @@
         <div class="form-group mb-2 col-md-6">
             <label asp-for="ConfirmPassword">Confirmação de Senha:</label>
             <input asp-for="ConfirmPassword" class="form-control" type="password" 
-                    data-toggle="tooltip" title="Tooltip on top"
+                    data-toggle="tooltip" title="Confirme a senha de acesso do seu Cliente"
             />
             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
         </div>
@@ -132,15 +132,16 @@
             var isExemptCheckbox = $('#IsExempt');
             var stateRegistrationInput = $('#StateRegistration');
             var personType = $('#PersonType');
-            cpfCnpjInput.inputmask("999.999.999-99");
+            cpfCnpjInput.inputmask("999.999.999-99", { numericInput: true });
+            stateRegistrationInput.inputmask("999.999.999.999", { numericInput: true }); 
 
             personType.change(function() {
                 var PersonType = $(this).val();
 
                 if (PersonType == 0) {
-                    $('#cpfCnpjInput').inputmask("999.999.999-99");
+                    $('#cpfCnpjInput').inputmask("999.999.999-99", { numericInput: true });
                 } else {
-                    $('#cpfCnpjInput').inputmask("99.999.999/9999-99");
+                    $('#cpfCnpjInput').inputmask("99.999.999/9999-99", { numericInput: true });
                 }
             });
 
@@ -152,7 +153,7 @@
                 } else {
                     stateRegistrationInput.prop('disabled', false);
                     stateRegistrationInput.val('');
-                    // stateRegistrationInput.inputmask("999.999.999.999"); 
+                    stateRegistrationInput.inputmask("999.999.999.999", { numericInput: true }); 
                 }
             });
         });
@@ -166,6 +167,11 @@
             var form = $('form');
             var isValid = true;
 
+            var cpfCnpjInputValueWithoutMask = $('#cpfCnpjInput').inputmask('unmaskedvalue');
+            $('#cpfCnpjInput').val(cpfCnpjInputValueWithoutMask);
+            var stateRegistrationInputValueWithoutMask = $('#StateRegistration').inputmask('unmaskedvalue');
+            $('#StateRegistration').val(stateRegistrationInputValueWithoutMask);
+
             isValid = validateField(form, '#Email', '/Customer/ValidateEmail/', 'Este e-mail já está cadastrado para outro Cliente');
             isValid = validateField(form, '#cpfCnpjInput', '/Customer/ValidateCpfCnpj/', 'Este Cpf/Cnpj já está cadastrado para outro Cliente') && isValid;
             isValid = validateField(form, '#StateRegistration', '/Customer/ValidateStateRegistration/', 'Esta Inscrição Estadual já está cadastrada para outro Cliente') && isValid;
@@ -175,6 +181,7 @@
             } else {
                 form.append('<input type="hidden" name="clientValidationFailed" value="true" />');
             }
+
             var tempoEmMilissegundos = 500;
             event.preventDefault();
             setTimeout(function() {
