@@ -118,15 +118,19 @@
 
 @section Scripts {
     <script>
-        $(document).ready(function(){
+
+        $(document).ready(function() {
             $('[data-toggle="tooltip"]').tooltip();
             $('#Phone').inputmask("(99) 99999-9999");
-            @* $('#StateRegistration').inputmask("999.999.999.999"); *@
+            // $('#StateRegistration').inputmask("999.999.999.999");
             
             var cpfCnpjInput = $('#cpfCnpjInput');
+            var isExempt = $('#IsExempt');
+            var stateRegistrationInput = $('#StateRegistration');
+            var personType = $('#PersonType');
             cpfCnpjInput.inputmask("999.999.999-99");
 
-            $('#PersonType').change(function () {
+            personType.change(function() {
                 var PersonType = $(this).val();
 
                 if (PersonType == 0) {
@@ -134,21 +138,19 @@
                 } else {
                     $('#cpfCnpjInput').inputmask("99.999.999/9999-99");
                 }
-            });            
+            });
+
+            isExempt.on('change', function() {
+                if (isExempt.prop('checked')) {
+                    stateRegistrationInput.inputmask("");
+                    stateRegistrationInput.val('ISENTO');
+                    stateRegistrationInput.prop('disabled', true);
+                } else {
+                    stateRegistrationInput.prop('disabled', false);
+                    stateRegistrationInput.inputmask("999.999.999.999");
+                }
+            });
         });
-
-        var isExempt = document.getElementById('IsExempt');
-        var stateRegistrationInput = document.getElementById('StateRegistration');
-
-        isExempt.addEventListener('change', function() {
-            if (isExempt.checked) {
-                stateRegistrationInput.value = '';
-                stateRegistrationInput.disabled = true;
-            } else {
-                stateRegistrationInput.disabled = false;
-            }
-        });
-
 
         function validationHandler(event) {
             var isValidCpfCnpj = validateCpfCnpjNew(event)
