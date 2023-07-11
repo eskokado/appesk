@@ -78,14 +78,14 @@
             return isValid;
         }
 
-        function sendMessage(message) {
+        function sendMessage(message, type) {
             Toastify({
                 text: message,
                 duration: 3000,
                 gravity: "top",
                 position: "top",
                 close: true,
-                backgroundColor: "#ff8800",
+                backgroundColor: type ? type : "#ff8800",
                 stopOnFocus: true,
                 offset: {
                     y: 100,
@@ -103,5 +103,11 @@
             return value.replace(/[^\d]+/g, '');
         }
     </script>
+    @if (TempData.ContainsKey("ToastMessage"))
+    {
+        <script>
+            sendMessage("@TempData["ToastMessage"]", "@TempData["ToastType"]");
+        </script>
+    }    
 </body>
 </html>
