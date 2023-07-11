@@ -45,7 +45,12 @@ public class CustomerController : Controller
         if (clientValidationFailed || !ModelState.IsValid) return View("Create", customer);
 
         _customerRepository.Create(customer);
-        return RedirectToAction("Index", "Customer");
+
+        TempData["ToastMessage"] = "Cliente criado com sucesso!";
+        TempData["ToastType"] = "toast-success";
+
+        IPagedList<CustomerModel> customers = _customerRepository.ListPerPage(1, 20);
+        return RedirectToAction("Index", customers);
     }
 
 
@@ -62,16 +67,22 @@ public class CustomerController : Controller
     {
         if (clientValidationFailed || !ModelState.IsValid) return View("Edit", customer);
         
-        _customerRepository.Update(customer);
-        return RedirectToAction("Index", "Customer");
+        TempData["ToastMessage"] = "Cliente alterado com sucesso!";
+        TempData["ToastType"] = "toast-success";
+
+        IPagedList<CustomerModel> customers = _customerRepository.ListPerPage(1, 20);
+        return RedirectToAction("Index", customers);
     }
 
     [HttpPost]
     public IActionResult Delete(int id) 
     {
         if (!_customerRepository.DeleteById(id)) throw new System.Exception("Houve erro na delação de Cliente com id "+id);
-        IPagedList<CustomerModel> customers = _customerRepository.ListPerPage(1, 20);
-        return View("Index", customers);
+
+        TempData["ToastMessage"] = "Cliente deletado com sucesso!";
+        TempData["ToastType"] = "toast-success";
+
+        return Ok();
     }
 
     [HttpPost]
