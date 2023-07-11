@@ -46,3 +46,23 @@ button.accept-policy {
   white-space: nowrap;
   line-height: 60px;
 }
+
+.toast-success {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.toast-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.toast-danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.toast-info {
+  background-color: #17a2b8;
+  color: #fff;
+}
