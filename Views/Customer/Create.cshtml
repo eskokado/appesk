@@ -118,20 +118,35 @@
 
 </form>
 
+
+@if (TempData.ContainsKey("ToastMessage"))
+{
+    <script>
+        sendMessage("@TempData["ToastMessage"]", "@TempData["ToastType"]");
+    </script>
+}    
+
 @section Scripts {
     <script>
         var isValidStateRegistration = false;
         var isValidEmail = false;
         var isValidCpfCnpj = false;
         $(document).ready(function() {
-            $('[data-toggle="tooltip"]').tooltip();
-            $('#Phone').inputmask("(99) 99999-9999");
-            // $('#StateRegistration').inputmask("999.999.999.999");
-            
             var cpfCnpjInput = $('#cpfCnpjInput');
             var isExemptCheckbox = $('#IsExempt');
             var stateRegistrationInput = $('#StateRegistration');
             var personType = $('#PersonType');
+
+            $('[data-toggle="tooltip"]').tooltip();
+            $('#Phone').inputmask("(99) 99999-9999");
+            if (isExemptCheckbox.prop('checked')) {
+                stateRegistrationInput.inputmask("");
+                stateRegistrationInput.prop('disabled', true);
+            } else {
+                stateRegistrationInput.prop('disabled', false);
+                stateRegistrationInput.inputmask("999.999.999.999", { numericInput: true }); 
+            }
+            
             cpfCnpjInput.inputmask("999.999.999-99", { numericInput: true });
             stateRegistrationInput.inputmask("999.999.999.999", { numericInput: true }); 
 
