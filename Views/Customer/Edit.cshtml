@@ -125,14 +125,22 @@
         var isValidEmail = false;
         var isValidCpfCnpj = false;
         $(document).ready(function() {
-            $('[data-toggle="tooltip"]').tooltip();
-            $('#Phone').inputmask("(99) 99999-9999");
-            // $('#StateRegistration').inputmask("999.999.999.999");
-            
             var cpfCnpjInput = $('#cpfCnpjInput');
             var isExemptCheckbox = $('#IsExempt');
             var stateRegistrationInput = $('#StateRegistration');
             var personType = $('#PersonType');
+
+            $('[data-toggle="tooltip"]').tooltip();
+            $('#Phone').inputmask("(99) 99999-9999");
+            if (isExemptCheckbox.prop('checked')) {
+                stateRegistrationInput.inputmask("");
+                stateRegistrationInput.val('ISENTO');
+                stateRegistrationInput.prop('disabled', true);
+            } else {
+                stateRegistrationInput.prop('disabled', false);
+                stateRegistrationInput.inputmask("999.999.999.999", { numericInput: true }); 
+            }
+            
             cpfCnpjInput.inputmask("999.999.999-99", { numericInput: true });
             stateRegistrationInput.inputmask("999.999.999.999", { numericInput: true }); 
 
@@ -169,10 +177,8 @@
             var isValid = true;
 
             var cpfCnpjInputValue = $('#cpfCnpjInput').inputmask('unmaskedvalue');
-            console.log(cpfCnpjInputValue);
             $('#cpfCnpjInput').val(cpfCnpjInputValue.replace(/\D/g, ''));
             var stateRegistrationInputValue = $('#StateRegistration').inputmask('unmaskedvalue');
-            console.log(stateRegistrationInputValue);
             $('#StateRegistration').val(stateRegistrationInputValue.replace(/\D/g, ''));
 
             isValid = validateField(form, '#Email', '/Customer/ValidateEmail/', 'Este e-mail já está cadastrado para outro Cliente');
@@ -188,14 +194,6 @@
             var tempoEmMilissegundos = 500;
             event.preventDefault();
             setTimeout(function() {
-                var cpfCnpjInputValue = $('#cpfCnpjInput').inputmask('unmaskedvalue');
-                console.log(cpfCnpjInputValue);
-                $('#cpfCnpjInput').val(cpfCnpjInputValue.replace(/\D/g, ''));
-                var stateRegistrationInputValue = $('#StateRegistration').inputmask('unmaskedvalue');
-                console.log(stateRegistrationInputValue);
-                $('#StateRegistration').val(stateRegistrationInputValue.replace(/\D/g, ''));
-@* form.find('#cpfCnpjInput').val(cpfCnpjInputValue.replace(/\D/g, ''));
-form.find('#StateRegistration').val(stateRegistrationInputValue.replace(/\D/g, '')); *@
                 form.submit();
             }, tempoEmMilissegundos);
         }
