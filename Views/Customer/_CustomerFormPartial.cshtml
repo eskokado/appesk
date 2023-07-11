@@ -1,6 +1,6 @@
 @model CustomerModel
 
-@* <div class="row">
+<div class="row">
     <div class="form-group mb-2">
         <label asp-for="Name">Nome do Cliente/Razão Social:</label>
         <input asp-for="Name" class="form-control" data-toggle="tooltip" title="Nome completo ou Razão Social do Cliente."/>
@@ -97,80 +97,12 @@
     <div class="form-group mb-2 col-md-6">
         <label asp-for="ConfirmPassword">Confirmação de Senha:</label>
         <input asp-for="ConfirmPassword" class="form-control" type="password" 
-                data-toggle="tooltip" title="Tooltip on top"
+                data-toggle="tooltip" title="Confirme a senha de acesso do seu Cliente"
         />
         <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
     </div>
 </div>
 
-<div>
-    <button type="button" class="btn btn-primary" onclick="validationHandler(event)">Adicionar Cliente</button>
-    <button type="button" class="btn btn-secondary" onclick="back()">Voltar</button>
-</div> *@
-
 @section Scripts {
-    <script>
-        var isValidStateRegistration = false;
-        var isValidEmail = false;
-        var isValidCpfCnpj = false;
-        $(document).ready(function() {
-            $('[data-toggle="tooltip"]').tooltip();
-            $('#Phone').inputmask("(99) 99999-9999");
-            // $('#StateRegistration').inputmask("999.999.999.999");
-            
-            var cpfCnpjInput = $('#cpfCnpjInput');
-            var isExemptCheckbox = $('#IsExempt');
-            var stateRegistrationInput = $('#StateRegistration');
-            var personType = $('#PersonType');
-            cpfCnpjInput.inputmask("999.999.999-99");
-
-            personType.change(function() {
-                var PersonType = $(this).val();
-
-                if (PersonType == 0) {
-                    $('#cpfCnpjInput').inputmask("999.999.999-99");
-                } else {
-                    $('#cpfCnpjInput').inputmask("99.999.999/9999-99");
-                }
-            });
-
-            isExemptCheckbox.on('change', function() {
-                if (isExemptCheckbox.prop('checked')) {
-                    stateRegistrationInput.inputmask("");
-                    stateRegistrationInput.val('ISENTO');
-                    stateRegistrationInput.prop('disabled', true);
-                } else {
-                    stateRegistrationInput.prop('disabled', false);
-                    stateRegistrationInput.val('');
-                    @* stateRegistrationInput.inputmask("999.999.999.999"); *@
-                }
-            });
-        });
-
-        function validationHandler(event) {
-            event.preventDefault();
-            validateForm(event);
-        }
-
-        function validateForm(event) {
-            var form = $('form');
-            var isValid = true;
-
-            isValid = validateField(form, '#Email', '/Customer/ValidateEmail/', 'Este e-mail já está cadastrado para outro Cliente');
-            isValid = validateField(form, '#cpfCnpjInput', '/Customer/ValidateCpfCnpj/', 'Este Cpf/Cnpj já está cadastrado para outro Cliente') && isValid;
-            isValid = validateField(form, '#StateRegistration', '/Customer/ValidateStateRegistration/', 'Esta Inscrição Estadual já está cadastrada para outro Cliente') && isValid;
-
-             if (isValid) {
-                form.append('<input type="hidden" name="clientValidationFailed" value="false" />');
-            } else {
-                form.append('<input type="hidden" name="clientValidationFailed" value="true" />');
-            }
-            var tempoEmMilissegundos = 500;
-            event.preventDefault();
-            setTimeout(function() {
-                form.submit();
-            }, tempoEmMilissegundos);
-        }
-    </script>
 }
 
